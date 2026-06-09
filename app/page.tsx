@@ -136,7 +136,12 @@ export default function RotPage() {
 
   const { theme: currentTheme, setTheme: setCurrentTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const { scrollY } = useScroll()
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 140)
@@ -270,15 +275,17 @@ export default function RotPage() {
               </div>
             </Link>
 
-            <button
-              type="button"
-              className={styles.socialsItem}
-              onClick={() => setCurrentTheme(currentTheme === "dark" ? "light" : "dark")}
-              aria-label="Toggle color theme"
-            >
-              {currentTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
-              <p>Theme</p>
-            </button>
+            {isMounted && (
+              <button
+                type="button"
+                className={styles.socialsItem}
+                onClick={() => setCurrentTheme(currentTheme === "dark" ? "light" : "dark")}
+                aria-label="Toggle color theme"
+              >
+                {currentTheme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+                <p>Theme</p>
+              </button>
+            )}
           </div>
         </div>
 
